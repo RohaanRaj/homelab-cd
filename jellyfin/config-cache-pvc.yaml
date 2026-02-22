@@ -1,0 +1,16 @@
+apiVersion: v1
+
+kind: PersistentVolumeClaim
+
+metadata:
+  name: config-cache-pvc
+  namespace: media
+
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  storageClassName: music
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,5 +1,0 @@
-deployments
-service
-pv
-pvc
-

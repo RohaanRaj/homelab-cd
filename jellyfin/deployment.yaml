@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: jellyfin-deployment
+  namespace: media
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jelly
+
+  template:
+    metadata:
+      labels:
+        app: jelly
+    spec:
+      containers:
+      - name: jellyfin
+        image: jellyfin/jellyfin:10.11.5
+        ports:
+        - containerPort: 8096
+
+        volumeMounts:
+          - name: jellyfin-config-cache
+            mountPath: /config
+            subPath: jellyfin/config
+
+          - name: jellyfin-config-cache
+            mountPath: /cache
+            subPath: jellyfin/cache
+
+          - name: jellyfin-movies
+            mountPath: /movies
+            subPath: movies
+            
+          - name: jellyfin-movies
+            mountPath: /series
+            subPath: series
+
+          - name: jellyfin-movies
+            mountPath: /anime
+            subPath: anime
+
+        
+      volumes:
+        - name: jellyfin-movies
+          persistentVolumeClaim:
+            claimName: movies-pvc
+
+        - name: jellyfin-config-cache
+          persistentVolumeClaim:
+            claimName: config-cache-pvc
+
